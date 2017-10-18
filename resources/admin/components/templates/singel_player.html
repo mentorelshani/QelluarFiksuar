@@ -1,0 +1,30 @@
+<div class="singelplayer">
+	<table class="table">
+		<tr>
+			<td colspan="1"><span>With have many number do you wond to play ? </span></td>
+		</tr>
+		<tr>
+			<td>
+				<router-link to="/game" >
+					<button  @click="Level_singel('dy')">
+						<span>2</span>
+					</button>
+				</router-link>
+				
+			
+				<router-link to="/game">
+					<button v-model="tre" @click="Level_singel('tre')">
+						<span>3</span>
+					</button>
+				</router-link>
+			
+				<router-link to="/game">
+					<button v-model="kater" @click="Level_singel('kater')">
+						<span>4</span>
+					</button>
+				</router-link>
+			</td>
+		</tr>
+	</table>
+
+</div>

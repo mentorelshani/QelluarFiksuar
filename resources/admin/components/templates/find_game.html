@@ -1,0 +1,28 @@
+<div>
+	<h3>Find room</h3>
+	<input type="text" name="search" placeholder="Search">
+	<table class="table">
+		<tr>
+			<th><span>Id</span></th>
+			<th><span>Room</span></th>
+			<th><span>Max Player</span></th>
+			<th><span>LeveL</span></th>
+			<th><span>Avaiable</span></th>
+			<th>Join free room</th>
+		</tr>
+		<tr v-for="(room,index) in rooms">
+			<td><span>{{room.id}}</span></td>
+			<td><span>{{room.name}}</span></td>
+			<td><span>{{room.maxPlayers}}</span></td>
+			<td><span>{{room.number.length}}</span></td>
+			<td><span>{{room.avaiable}}</span></td>
+			<td>
+			<router-link to="/startmultiplayer">
+				<button @click="JoinRoom(room.id)">Join Room</button>
+			</router-link>
+			</td>
+		</tr>
+		
+	</table>
+	
+</div>

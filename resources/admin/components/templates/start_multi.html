@@ -1,0 +1,13 @@
+<div>
+	<h3>Activ user in room</h3>
+	<ol>
+		<li v-for="player in ReadyPlayers">{{player.user.username}}</li>
+		
+	</ol>
+	
+	<router-link to="/game-multiplayer"> 
+		<button class="btn" @click="startGame()">Start game</button>
+	</router-link>
+
+
+</div>

@@ -1,0 +1,63 @@
+.login__body {
+	background: $mainColor;
+	height: 100vh;
+	font-family: Helvetica;
+	overflow: hidden;
+
+	.container {
+	    width: 550px;
+	    position: relative;
+	    top: 50%;
+	    left: 50%;
+	    transform: translate(-50%, -50%);
+
+	    img {
+    	    width: 40%;
+		    margin: 0 auto;
+		    display: block;
+		    padding-bottom: 15px;
+	    }
+
+	    .panel-title {
+	    	text-align: center;
+	    	color: #fff;
+	    	font-size: 18px;
+	    }
+
+	    fieldset {
+	    	border: none;
+	    }
+
+	    input, button {
+	    	width: 70%;
+	    	margin-top: 15px;
+	    	padding-top: 10px;
+	    	padding-bottom: 10px;
+
+	    	&:focus {
+	    		outline: none;
+	    	}
+	    }
+
+	    button {
+	    	width: 70.9%;
+	    	cursor: pointer;
+	    	background: $logoColor;
+	    	border: 1px solid $logoColor;
+	    	color: #fff;
+	    	font-size: 16px;
+	    	transition: all .2s ease-in;
+
+	    	&:hover {
+	    		opacity: 0.8;
+	    	}
+	    }
+
+	    a {
+    	    margin-top: 15px;
+		    display: block;
+		    color: #fff;
+		    text-decoration: none;
+	    }
+	}
+}

@@ -1,0 +1,48 @@
+<div>
+	<h3>Create room</h3>
+	
+	<table class="table">
+		<tr>
+			<td colspan="1"><span>With have many number do you want to play ? </span></td>
+		</tr>
+		<tr>
+			<td>
+				2<input type="radio" name="f" v-model="diff" v-bind:value="2">
+				3<input type="radio" name="f" v-model="diff" v-bind:value="3">
+				4<input type="radio" name="f" v-model="diff" v-bind:value="4">
+			</td>
+			
+			
+		</tr>
+		<tr><span>How many players ?</span></tr>
+		<tr>
+			<td>
+				<select v-model="nr_player">
+				  <option>2</option>
+				  <option>3</option>
+				  <option>4</option>
+				  <option>5</option>
+				</select>
+			</td>
+		</tr>
+		
+		<tr>
+			<td><span>Name of room ?</span></td>
+		</tr>
+		<tr>
+			<td><input type="text" name="NameRoom" v-model="name_room"></td>
+	
+		</tr>
+		<tr>
+			<td>
+				<router-link to="/startmultiplayer"> 
+					<input class="btn" type="submit" name="CreateRoom" value="Create" @click="CreateRoom()">
+				</router-link>
+				
+				
+				<input class="btn" type="button" name="Clear" value="Clear" @click="ClearForm()">
+			</td>
+		</tr>
+	</table>
+
+</div>
