@@ -44,6 +44,7 @@
 
              SendTry:function()
              {
+                this.bool = false;
                 this.tryinfo.push({
                     number:this.inputTry,
                     game_id:this.$store.state.game.id});
