@@ -5,7 +5,7 @@
 	</div>
 
 	<div class="tentimet">
-		<h4  v-for="tryy in tries">
+		<h4 class="span1"  v-for="tryy in tries">
 		{{tryy.tentimi}} {{tryy.message}}</h4>
 	
 
@@ -13,7 +13,9 @@
 
 	<div class="players">
 		<h3>Players</h3>
-		<h4 v-for="player in players">1231231212312</h4>
+		<ol>
+			<li v-for="player in players">{{player.user.username}}</li>
+		</ol>
 		
 	</div>
 </div>

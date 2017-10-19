@@ -18,6 +18,7 @@ class CreateTriesTable extends Migration
             $table->integer('game_id');
             $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
             $table->integer('tentimi');
+            $table->string('message');
             $table->timestamps();
         });
     }

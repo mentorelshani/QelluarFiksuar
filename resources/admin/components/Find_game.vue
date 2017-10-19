@@ -11,27 +11,29 @@
         },
 
         mounted () {
+            setInterval(function () {
+                this.GetRooms();
+            }.bind(this), 5000);
 
-        	this.$http.get('getRooms').then(function (response) {
-                    this.rooms = response.data;
-                    console.log(this.rooms);
-                });
         },
 
         methods: {
             JoinRoom: function(param) {
 
                 this.$http.get('enterRoom/'+param).then(function (response) {
-                    console.log(response.data);
-                    this.$store.state.game=response.data;
+
+                    this.$store.commit('setRoom', response.data.room);
+                    this.$store.commit('setGame', response.data.game);
                 });
+                },
+            GetRooms: function(){
 
-
-
-                }	
-            },
-
-        }
+                this.$http.get('getRooms').then(function (response) {
+                        this.rooms = response.data;
+                    });
+            }	
+        },
+    }
     
 </script>
 

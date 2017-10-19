@@ -6,12 +6,9 @@
             	diff:[],
             	nr_player:[],
             	name_room:[],
-              id_room:[],
-              id:1,
-              players:[],
-              
 
-            	room:[],
+              room:[],
+              asd:1234,
 
             }
         },
@@ -24,22 +21,15 @@
                		name:this.name_room}); 
 
 
-               	this.$http.post('/createRoom', this.room[0]).then(function(response) {
+               	this.$http.post('/createRoom', this.room[this.room.length-1]).then(function(response) {
 
-                  console.log(response.data);
-                  this.id_room=response.data.id;
-                  this.$store.state.game=response.data.game;
-
+                  this.$store.commit('setRoom', response.data.room);
+                  this.$store.commit('setGame', response.data.game);
+                
+                  // this.$store.state.room=this.asd;
 
                 })
 
-                this.$http.get('/getReadyPlayers/'+this.id).then(function(response) {
-
-                  console.log(response.data);
-                  this.players=response.data;
-              
-                  
-                })
 
                },
             ClearForm: function() {

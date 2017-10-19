@@ -4,80 +4,41 @@
 		data: function() {
             return {
             	  players:[],
-                  length1:[],
-                  tries:[{"aa" : '1'}],
-                  getOrder:[],
-
-                  game_id:[],
-                  inputTry:[],
-                  tryinfo:[],
+                  tries:[],
                   order:[],
-                  game:{"order" : '1'},
-                  abc:32,
-                  bool:[],
+
+
+                  tryinfo:[],
+                  inputTry:null,
+                  bool:false,
 
             }
         },
         // tries.length%tries[0].game.room.maxPlayers == game[0].order -1
 
 		mounted () {
-
-            this.loadData();
             this.getPlayersInRoom();
-
             setInterval(function () {
                 this.bool=this.$store.state.game.order == this.order;
-                this.getPlayersInRoom();
-                this.loadData();
-                this.bool=this.tries.length%this.length1== this.game.order -1 || this.tries['aa']== '1';
+                this.getTries();
+                this.GetRoomOrder();
+                this.bool=this.order == this.$store.state.game.order;
 
-                console.log("this.length1  "+this.length1);
-                console.log("this.tries.length  "+this.tries.length);
-                console.log("game[0]oreder  "+ this.game.order);
-            }.bind(this), 1000);
-
-                console.log(this.$store.state.game);
-            this.order = 1;
-            this.bool=this.$store.state.game.order == this.order;
-
+            }.bind(this), 2000);
 
 
                 
         },
         methods: {
-            loadData: function () {
-                this.$http.get('getGameTries').then(function (response) {
-                    if(response.data.length != 0){
+            getTries: function () {
+                this.$http.get('getGameTries/'+this.$store.state.room.id).then(function (response) {
+                    
                         this.tries = response.data;
-                   
-                    }
-                    else
-                    {
-                         this.tries = [{
-                            "game":{
-                                "user":{
-                                    "username": ""
-                                }
-                            },
-                            "tentimi" :"",
-                            "message" :"Nuk ka asnje tentim"
-                         
-                        
-                         }];
-                     }
-
-
                 });
              },
              getPlayersInRoom:function () {
-                this.$http.get('getReadyPlayers').then(function (response) {
-                    this.players = response.data;
-                    if(response.data!=null)
-                    {
-                        this.room_id=response.data[0].room_id;
-                        this.length1 = response.data.length;
-                    }
-                    
+                this.$http.get('getReadyPlayers/'+this.$store.state.room.id).then(function (response) {
+                    this.players = response.data;                    
                 });
              },
 
@@ -85,31 +46,23 @@
              {
                 this.tryinfo.push({
                     number:this.inputTry,
-                    room_id:this.room_id});
-                var length = this.tryinfo.length;
+                    game_id:this.$store.state.game.id});
 
 
-                this.$http.post('/try', this.tryinfo[(length-1)]).then(function(response) {
+                this.$http.post('/try', this.tryinfo[this.tryinfo.length-1]).then(function(response) {
 
-                    this.game =response.data;
-                    console.log(this.game);
-                
+                    this.$store.commit('setRoom', response.data);
 
                 })
 
-                this.getOrder.push({
-                    count:this.length1,
-                    order:this.order,
-                })
+             },
 
-                this.$http.post('/getOrder/',this.getOrder[(length-1)]).then(function(response) {
-                    this.order =response.data;
-                    console.log(this.order);
-
-
-                })
-
+             GetRoomOrder:function(response){
+                 this.$http.get('getRoom/'+this.$store.state.room.id).then(function (response) {
+                    this.order = response.data.orders;                    
+                });
              }
+
 
 
         },

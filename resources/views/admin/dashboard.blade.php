@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Emirates Graphic CMS</title>
+    <title>Logistics plus</title>
 
     <link rel="stylesheet" type="text/css" href="{{url('css/build.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{url('css/admin.min.css')}}">
@@ -32,8 +32,5 @@
 <div id="admin">
 
 </div>
-
     <script src="{{url('js/admin.js')}}"></script>
-
-
 </body>

@@ -24,15 +24,16 @@ Route::post('signUp','AuthController@signUp');
 Route::get('getRooms','MainController@getRooms');
 Route::post('createRoom','MainController@createRoom');
 Route::get('enterRoom/{id}','MainController@enterRoom');
-Route::get('getReadyPlayers','MainController@getReadyPlayers');
-Route::get('startGame','MainController@startGame');
-Route::get('getGameTries','MainController@getGameTries');
-Route::get('getOrder','MainController@getOrder');
+Route::get('getReadyPlayers/{room_id}','MainController@getReadyPlayers');
+Route::get('startGame/{room_id}','MainController@startGame');
+Route::get('getGameTries/{room_id}','MainController@getGameTries');
+Route::get('getRoom/{room}','MainController@getRoom');
 Route::post('try','MainController@try');
 
 
 Route::get('/test',function(){
 
+    
     return Game::where('id','<','5')->get();
 
     return Auth::user();
@@ -68,7 +69,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('logout','AuthController@logout');
     Route::post('createRoom','MainController@createRoom');
     Route::get('enterRoom/{id}','MainController@enterRoom');
-    Route::get('admin/dashboard',function(){
+    Route::get('dashboard',function(){
         return view ('admin.dashboard');
     });
 
@@ -93,7 +94,7 @@ Route::get('/{vue_capture?}', function () {
     $user = \Auth::user();
 
     if($user!= null){
-        return redirect('admin/dashboard');
+        return redirect('dashboard');
     }
     else{
         return redirect('login');

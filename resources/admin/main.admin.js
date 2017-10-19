@@ -67,6 +67,7 @@ var routes = [
       name: 'EnterRoom',
       component: Game
     },
+    {path:'*',redirect:'/page1'},
 
 ]
 

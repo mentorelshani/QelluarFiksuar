@@ -41,6 +41,7 @@ class MainController extends Controller
         $room->number = $number;
         $room->maxPlayers = $maxPlayers;
         $room->avaiable = true;
+        $room->orders = 1;
         $room->save();
 
 
@@ -53,16 +54,15 @@ class MainController extends Controller
     	$game->ingame = false;
         $game->save();
 
+        $roomm = Room::where('id',$room->id)->with('games')->first();
 
-        $room_id = session()->put('room_id',$room->id);
-
-        return  array('id' =>$room->id , 'game' => $game );
+        return  array('room' =>$roomm, 'game' => $game);
     }
 
     public function enterRoom($id){
 		
 		$a = DB::table('games')->where('room_id',$id)->max('order');
-    	$room = Room::find($id);
+    	$room = Room::where('id',$id)->with('games')->first();
     	if ($room->avaiable) {
     		$game = new Game();
     		$game->room_id = $room->id;
@@ -77,34 +77,32 @@ class MainController extends Controller
 
     		$game->save();
     	}
-
+        $room = Room::where('id',$id)->with('games')->first();
         session()->put('room_id',$id);
-        return $game->with('user');
+        return array('game' => $game, 'room' => $room );
 
     }
 
     public function getRooms(){
-    	$a = Room::with('games')->get();
+    	$a = Room::with('games')->where('avaiable',true)->get();
     	return $a;
     }
 
-    public function getGameTries(){
+    public function getGameTries($room_id){
         $b[0] = array('0' => 0);
-        $room_id = session()->get('room_id');
-        if($room_id == null) $room_id = 2;
 
     	$a = Game::where('room_id',$room_id)->select('id')->get();
 
         for ($i=0; $i < count($a); $i++) { 
             $b[$i] = $a[$i]['id'];
         }
-        $c = Tries::whereIn('game_id',$b)->with('game','game.user')->get();
+        $c = Tries::whereIn('game_id',$b)->with('game','game.user')->orderBy('created_at')->get();
     	return $c;
 
     }
 
-    public function getReadyPlayers(){
-        $room_id = session()->get('room_id');
+    public function getReadyPlayers($room_id){
+        // $room_id = session()->get('room_id');
     	return Game::where('room_id',$room_id)->with('user')->get();
     }
 
@@ -117,16 +115,26 @@ class MainController extends Controller
     }
 
     public function try(Request $request){
-        $room_id = (int) $request->room_id;
-    	$tentimi = (int) $request->number;
-    	$game_id = Game::where('user_id',\Auth::user()->id)->where('room_id',$room_id)->select('id')->first()->id;
 
+        //....
+        $game_id = (int) $request->game_id;
+    	$tentimi = (int) $request->number;
+
+        
+    	$game = Game::where('id',$game_id)->with('room')->first();
     	$try = new Tries();
     	$try->tentimi = $tentimi;
     	$try->game_id = $game_id;
-
-    	$game = Game::where('id',$game_id)->first();
     	$number = $game->room->number;
+
+        $room = Room::where('id',$game->room->id)->with('games')->first();
+
+        if($room->orders == $room->maxPlayers)
+            $room->orders = 1;
+        else
+            $room->orders = $room->orders + 1;
+        $room->save();
+
 
     	// if($tentimi == $number){
     	// 	return "win";
@@ -151,15 +159,12 @@ class MainController extends Controller
 
     	$try->message = $fix . " te fiksuara dhe ".$qell . " te qelluara.";
     	$try->save();
-    	return $game;
+    	return $room;
     }
 
-    public function getOrder(Request $request){
-
-        $order = (int) $request->order;
-        $length = (int) $request->count;
-
-        return $order < $length ? $order+1 : 1;
+    public function getRoom(Room $room){
+    
+        return $room;
     }
 
 

@@ -17,6 +17,7 @@ class CreateRoomsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('number');
+            $table->integer('orders');
             $table->integer('maxPlayers');
             $table->boolean('avaiable');
             $table->timestamps();
